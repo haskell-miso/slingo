@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
+
+    <title>Slingo — Free Online Game · Miso Slingo</title>
+    <meta name="description" content="Play slingo free in your browser. Part slots, part bingo: 20 spins, jokers, devils, cherubs, and a full-card jackpot. No ads, no download, works on mobile.">
+    <meta name="theme-color" content="#1D0C40">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎰</text></svg>">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Miso Slingo">
+    <meta property="og:title" content="Slingo — Free Online Game">
+    <meta property="og:description" content="Part slots, part bingo: 20 spins, jokers, devils, cherubs, and a full-card jackpot. Free, no ads, works on mobile.">
+
+    <!-- Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&display=swap" media="print" onload="this.media='all'">
+    <link rel="modulepreload" href="index.js">
+    <link rel="modulepreload" href="wasi_shim/index.js">
+    <link rel="modulepreload" href="ghc_wasm_jsffi.js">
+    <link rel="preload" href="app.wasm" as="fetch" crossorigin="anonymous">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Miso Slingo",
+      "description": "Free online slingo. Part slots, part bingo: 20 spins, jokers, devils, cherubs, and a full-card jackpot.",
+      "genre": ["Casual", "Luck game"],
+      "playMode": "SinglePlayer",
+      "gamePlatform": "Web browser",
+      "applicationCategory": "Game",
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript and WebAssembly",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "availability": "https://schema.org/InStock"
+      },
+      "author": { "@type": "Person", "name": "David M. Johnson" }
+    }
+    </script>
+
+    <style>
+      html, body { margin: 0; padding: 0; background: #12072B; }
+      #loading {
+        position: fixed; inset: 0; display: flex; flex-direction: column;
+        align-items: center; justify-content: center; text-align: center;
+        gap: 10px; padding: 24px; color: #C9BCF2;
+        font-family: 'Baloo 2', 'Avenir Next', system-ui, sans-serif;
+        background:
+          radial-gradient(90% 60% at 15% 0%, rgba(155,107,255,.25), rgba(0,0,0,0) 60%),
+          radial-gradient(80% 60% at 85% 10%, rgba(255,92,168,.18), rgba(0,0,0,0) 55%),
+          linear-gradient(180deg, #2B1257 0%, #1D0C40 55%, #12072B 100%);
+      }
+      #loading h1 {
+        margin: 0; color: #FFC93C; font-size: clamp(30px, 7vmin, 52px);
+        letter-spacing: .1em; font-weight: 800;
+        text-shadow: 0 0 24px rgba(255,201,60,.5);
+      }
+      #loading p { max-width: 560px; line-height: 1.6; margin: 4px 0; font-size: 15px; }
+      #loading .dim { color: #7A6CAA; font-size: 13px; }
+      #loading .pulse { animation: lpulse 1.2s ease-in-out infinite; }
+      @keyframes lpulse { 0%, 100% { opacity: .45 } 50% { opacity: 1 } }
+    </style>
+  </head>
+
+  <body>
+    <div id="loading">
+      <h1>🎰 SLINGO</h1>
+      <p>Part slots, part bingo. Twenty spins, five reels, one 5×5 card.
+        Match numbers, spend jokers wisely, dodge the devil, and chase
+        twelve slingo lines — or the full-card jackpot. Play the classic
+        1994 table on green felt, or the modern neon remix.</p>
+      <p>Play free in your browser. No ads, no downloads, mobile friendly.</p>
+      <p class="dim pulse">polishing the coins…</p>
+      <noscript><p><strong>Miso Slingo requires JavaScript and
+        WebAssembly.</strong> Enable JavaScript to play.</p></noscript>
+    </div>
+
+    <script src="index.js" type="module"></script>
+
+  </body>
+</html>
