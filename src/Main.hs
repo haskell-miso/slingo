@@ -296,8 +296,8 @@ playFx name = do
 -----------------------------------------------------------------------------
 -- * View
 -----------------------------------------------------------------------------
-viewModel :: () -> () -> Model -> View () Model Action
-viewModel _ _ m = case m ^. phase of
+viewModel :: Model -> View () () Model Action
+viewModel m = case m ^. phase of
   Title -> H.div_ []
     ( titleView : [ helpOverlay | m ^. showHelp ] )
   _ -> H.div_ [ HP.class_ (clsWhen (m ^. variant == Classic) "classic") ]
@@ -311,7 +311,7 @@ viewModel _ _ m = case m ^. phase of
       ++ [ helpOverlay | m ^. showHelp ]
     )
 -----------------------------------------------------------------------------
-titleView :: View () Model Action
+titleView :: View () () Model Action
 titleView = H.div_ [ HP.class_ "titleWrap" ] $
   [ deco v x y r dl
   | (v, x, y, r, dl) <-
@@ -350,7 +350,7 @@ titleView = H.div_ [ HP.class_ "titleWrap" ] $
           [ CSS.left x, CSS.top y, "--fr" =: r, CSS.animationDelay dl ]
       ] [ text v ]
 -----------------------------------------------------------------------------
-topbar :: Model -> View () Model Action
+topbar :: Model -> View () () Model Action
 topbar m = H.div_ [ HP.class_ "topbar" ]
   [ H.div_ [ HP.class_ "brand" ] [ text "SLINGO" ]
   , H.div_ [ HP.class_ "hudStats" ] $
@@ -376,7 +376,7 @@ topbar m = H.div_ [ HP.class_ "topbar" ]
       , H.span_ [ HP.class_ "btnLabel" ] [ text (" " <> label) ]
       ]
 -----------------------------------------------------------------------------
-boardView :: Model -> View () Model Action
+boardView :: Model -> View () () Model Action
 boardView m = H.div_ [ HP.class_ "cardSheet" ]
   [ H.div_ [ HP.class_ "cardGrid" ] (map tileView [0 .. 24]) ]
   where
@@ -395,7 +395,7 @@ boardView m = H.div_ [ HP.class_ "cardSheet" ]
           , clsWhen (i `elem` m ^. flash) "fl"
           ]
 -----------------------------------------------------------------------------
-reelView :: Model -> View () Model Action
+reelView :: Model -> View () () Model Action
 reelView m = H.div_ [ HP.class_ "reelRow" ]
   (map reel (zip [0 ..] (m ^. reels)))
   where
@@ -410,7 +410,7 @@ reelView m = H.div_ [ HP.class_ "reelRow" ]
         Face s -> [ faceView m c s ])
     strip c = [ ms (15 * c + 7), "🃏", ms (15 * c + 2), "🪙" ]
 -----------------------------------------------------------------------------
-faceView :: Model -> Int -> Symbol -> View () Model Action
+faceView :: Model -> Int -> Symbol -> View () () Model Action
 faceView m c = \case
   Number n ->
     let hit = maybe False ((m ^. marked) !!) (findCell (m ^. card) c n)
@@ -426,7 +426,7 @@ faceView m c = \case
   where
     glyph g = H.span_ [ HP.class_ "face" ] [ text g ]
 -----------------------------------------------------------------------------
-controlView :: Model -> View () Model Action
+controlView :: Model -> View () () Model Action
 controlView m = H.div_ [ HP.class_ "ctrlRow" ]
   [ H.button_
       [ HP.class_ (joinCls [ "spinBtn", clsWhen (not (canSpin m)) "off" ])
@@ -448,20 +448,20 @@ controlView m = H.div_ [ HP.class_ "ctrlRow" ]
       | fee > 0 = ms (m ^. spins) <> " left · fee −" <> ms fee
       | otherwise = ms (m ^. spins) <> " left"
 -----------------------------------------------------------------------------
-toastView :: Model -> View () Model Action
+toastView :: Model -> View () () Model Action
 toastView m = H.div_ [ HP.class_ "toast" ] [ text (m ^. toast) ]
 -----------------------------------------------------------------------------
-bannerView :: MisoString -> Bool -> View () Model Action
+bannerView :: MisoString -> Bool -> View () () Model Action
 bannerView b alt = H.div_
   [ HP.class_ (joinCls [ "slam", clsWhen alt "alt" ]) ]
   [ text b ]
 -----------------------------------------------------------------------------
-popupView :: MisoString -> Bool -> View () Model Action
+popupView :: MisoString -> Bool -> View () () Model Action
 popupView p alt = H.div_
   [ HP.class_ (joinCls [ "popup", clsWhen alt "alt" ]) ]
   [ text p ]
 -----------------------------------------------------------------------------
-overOverlay :: Model -> Bool -> View () Model Action
+overOverlay :: Model -> Bool -> View () () Model Action
 overOverlay m won = H.div_ [ HP.class_ "overlay" ]
   [ H.div_ [ HP.class_ "panel" ] $
       [ H.div_ [ HP.class_ (joinCls [ "seal", clsWhen won "sealWin" ]) ]
@@ -493,14 +493,14 @@ overOverlay m won = H.div_ [ HP.class_ "overlay" ]
       ]
   ]
   where
-    statRow :: Int -> MisoString -> MisoString -> View () Model Action
+    statRow :: Int -> MisoString -> MisoString -> View () () Model Action
     statRow k label v = H.div_
       [ HP.class_ "statRow"
       , CSS.style_ [ CSS.animationDelay (ms (200 + k * 130) <> "ms") ]
       ]
       [ H.span_ [] [ text label ], H.b_ [] [ text v ] ]
 -----------------------------------------------------------------------------
-helpOverlay :: View () Model Action
+helpOverlay :: View () () Model Action
 helpOverlay = H.div_ [ HP.class_ "overlay help" ]
   [ H.div_ [ HP.class_ "panel helpPanel" ]
       [ H.button_ [ HP.class_ "helpClose", HE.onClick CloseHelp ] [ text "✕" ]
